@@ -1,0 +1,48 @@
+\problem{2: Network Sketches}{10}
+A sketch is a data structure that stores summary information about network traffic captured through streaming, using a combination of hashing, counting and filtering techniques. Your task consists of implementing two sketching algorithms: Count-min and Bitmap.\\
+The \textbf{Count-min Sketch} is a probabilistic data structure that serves as a frequency table of events in a stream of data. It uses hash functions to map events to frequencies, with a table for each function. For each event in a stream, various hash functions are calculated, and for each one, the respective table counters are incremented. The final value for a given event is a minimum among all tables.\\
+The \textbf{Bitmap Sketch} counts the number of unique elements in a stream using an array of bits. Each stream event is hashed to a specific array position, where its value is changed from 0 to 1. The final sketch value is given by the sum of all the array values. For example, to count the number of unique sources accessing a web server via port 80, we can simply filter the traffic based on port 80 and then use a bitmap to count the number of unique source addresses.\\
+~\\
+\textbf{Implementation Guidelines}\\
+Your \textbf{count-min sketch} implementation should contain three counters which identify flows based on the source and destination IP address. The hash input fields for each counter must be:
+\begin{enumerate}
+    \item cm\_hash\_0: hdr.ipv4.src\_addr, hdr.ipv4.dst\_addr, hdr.ipv4.version
+    \item cm\_hash\_1: hdr.ipv4.src\_addr, hdr.ipv4.dst\_addr, hdr.ipv4.ihl
+    \item cm\_hash\_2: hdr.ipv4.src\_addr, hdr.ipv4.dst\_addr   
+\end{enumerate}
+
+The final count-min values must be stored in a P4 register named cm\_register\_final and indexed by the hash cm\_hash\_2.\\
+
+Your \textbf{bitmap sketch} implementation should store the number of unique destination IP addresses for each source IP address. The final sketch values must be stored in a P4 register named bm\_register\_final.\\
+
+For the sake of this assignment, all registers used to store sketches values in your P4 programs must have a size of 131072 and the hash algorithms crc32 must be used to compute all the hashes.\\
+
+The following steps illustrate a typical workflow to work on this task:
+\begin{enumerate}
+\item Unzip to a folder the p4\_sketches archive:\\
+        \textit{\$: unzip problem2.zip} 
+\item Edit the template of the main program:\\
+        \textit{\$: vim p4\_sketches.p4}
+\item Iteratively compile and fix your P4 code:\\
+        \textit{\$: p4c-bm2-ss --arch v1model p4\_sketches.p4 -o p4\_sketches.json}
+\item Create some veth interfaces and start the bmv2 switch:\\
+        \textit{\$: sudo bash ./veth\_setup.sh}\\
+        \textit{\$: sudo simple\_switch -i 0@Node1 \$FULL\_PATH\_TO\_YOUR/p4\_sketches.json}
+\item Install the tcpreplay utility with the following:\\
+        \textit{\$: sudo apt-get install tcpreplay}\\~\\
+Test your program by opening two terminals and using the following commands:\\
+
+- Send one of the provided pcap files on the /pcap/ folder to the switch with a packet replaying program, \textit{e.g.}, TcpReplay:\\
+
+        \textit{\$: sudo tcpreplay -i Node1 -K -l 1 --pps=50 test\_cm.pcap}\\
+
+- after replaying the pcap, read the sketches values from the switch through:\\
+
+        \textit{\$: python p4\_sketches\_test.py cm \$FULL\_PATH\_TO\_YOUR/p4\_sketches.json}\\
+
+as a result of the last command the sketch values are written into a txt file (either cm\_results.txt or bm\_results.txt according to the input different parameter, respectively 'cm' or 'bm', you specify).\\
+- Compare the generated file (e.g., cm\_results.txt) against the correct sketch values provided to you (e.g., in cm\_final.txt).
+
+\end{enumerate}
+
+\subproblem{Submission} We expect you to deliver a P4 program (p4 source files and table entries, if any) which we can load into the switch to reply the same pcap files and obtain the same sketches values as you.

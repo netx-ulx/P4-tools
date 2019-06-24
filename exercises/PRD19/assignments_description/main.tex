@@ -1,0 +1,61 @@
+11\documentclass[a4 paper]{article}
+% Set target color model to RGB
+\usepackage[inner=2.0cm,outer=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage[rgb]{xcolor}
+\usepackage{verbatim}
+\usepackage{subcaption}
+\usepackage{amsgen,amsmath,amstext,amsbsy,amsopn,tikz,amssymb,tkz-linknodes}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true, urlcolor=blue,  linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{rotating}
+%\usetikzlibrary{through,backgrounds}
+\hypersetup{%
+pdfauthor={Ashudeep Singh},%
+pdftitle={Homework},%
+pdfkeywords={Tikz,latex,bootstrap,uncertaintes},%
+pdfcreator={PDFLaTeX},%
+pdfproducer={PDFLaTeX},%
+}
+%\usetikzlibrary{shadows}
+% \usepackage[francais]{babel}
+\usepackage{booktabs}
+\input{macros.tex}
+
+
+\begin{document}
+\homework{Programming Assignment PA4}{Due: 02/06/19}{Fernando M. V. Ramos}{}{Salvatore Signorello}{Joao Amado}
+\textbf{General Policy}: Read all the instructions below carefully before you start working on the assignment, and before you make a submission.
+\begin{itemize}
+    \item the instructions in the Development Environment section help you set the correct environment to work on the assignments.
+    \item for the first two problems you will receive an archive named problemX containing P4 templates and testing scripts for sake of the assignment. Neither templates nor scripts are provided for problem3.
+    \item even if we provide you with tests to validate your programs behave as expected, please document your solution and comment your code, since those will be checked as well to decide the final score.
+    \item no solutions to the proposed problems are provided until the submission time is over.
+    \item a mid-term meeting with all the groups will be set to discuss each group's approach to the problems and potential doubts.
+    \item we encourage you to post questions about the assignments on the forum for this course when you think you may need some help. Questions on the forum are easier to get answered either by us or by your colleagues.
+\end{itemize}
+~\\
+\textbf{Development Environment}\\
+To download and launch the virtual machine image:
+\begin{itemize}
+    \item Install VirtualBox from https://virtualbox.org 
+    \item Download the following virtual machine image which contains all the necessary P4-dev tools (p4 compiler, software switch, runtime API): \href{https://drive.google.com/uc?id=1f22-DYlUV33DsR88_MeMb4s7-1NX_ams&export=download}{P4 Tutorial 2018-06-01.ova}
+    \item Import the virtual machine into VirtualBox by opening VirtualBox, selecting “File $>$ Import Appliance”, and navigating to the downloaded file.
+    \item Boot the imported virtual machine and log in by using the following credentials U: P:
+    \item You are ready to go! ;)
+\end{itemize}
+
+\newpage
+
+\input{problem1.tex}
+
+\newpage
+
+\input{problem2.tex}
+
+\newpage
+
+\input{problem3.tex}
+
+\end{document} 
