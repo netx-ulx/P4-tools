@@ -1,1 +1,5 @@
-This directory contains the programming assignments in P4 proposed to the students of the course on "Advanced Computer Networks" (PRD'19) taught by Prof. M. V. Ramos at the University of Lisbon in the 2nd semester of the academic year 2018/2019.
+This directory contains a description of and the solutions to some programming assignments in P4 which have been proposed to the students of the course on "Advanced Computer Networks" (PRD'19) taught by Prof. M. V. Ramos at the University of Lisbon in the 2nd semester of the academic year 2018/2019.
+
+In each problemX folder, you have an empty P4 template, some testing tools, a sub-folder containing a temptative solution to the problem (except 'problem1' which includes a link to an external repository where a solution can be found).
+
+The targeted students had a crash-course on P4 of roughly 2 hours where the programming model and the main language constructs have been introduced. Moreover, the students also went through a 1-hour lab-session where a step-by-step tutorial to work out a simplified version of the source routing exercise (from the official p4-tutorials).
