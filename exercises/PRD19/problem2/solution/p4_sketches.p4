@@ -190,17 +190,9 @@ control MyIngress(inout headers hdr, inout metadata_t meta, inout standard_metad
 
         bm_register_final.read(meta.meta_bitmap.bitmap_val1, (bit<32>)meta.meta_bitmap.bitmap_hash_val1);
 
-        meta.meta_bitmap.bitmap_val0 = meta.meta_bitmap.bitmap_val0 + 1;
-        meta.meta_bitmap.bitmap_val1 = meta.meta_bitmap.bitmap_val1 + 1;
-
-        bm_register_0.write((bit<32>)meta.meta_bitmap.bitmap_hash_val0, meta.meta_bitmap.bitmap_val0);
-        bm_register_final.write((bit<32>)meta.meta_bitmap.bitmap_hash_val1, meta.meta_bitmap.bitmap_val1);
-    }
-
-    action action_bitmap_existing_pair() {     
-
-        bm_register_final.read(meta.meta_bitmap.bitmap_val1, (bit<32>)meta.meta_bitmap.bitmap_hash_val1);     
-    }        
+        bm_register_0.write((bit<32>)meta.meta_bitmap.bitmap_hash_val0, 1);
+        bm_register_final.write((bit<32>)meta.meta_bitmap.bitmap_hash_val1, meta.meta_bitmap.bitmap_val1 + 1);
+    }      
     
     apply {
        
@@ -226,18 +218,15 @@ control MyIngress(inout headers hdr, inout metadata_t meta, inout standard_metad
         // Bitmap sketch
 
         action_bitmap_hash_0_val();
-        action_bitmap_hash_1_val();
 
         // Check the bitmap value for the (ip src, ip dst) pair
         action_bitmap_check_pair();
 
         if (meta.meta_bitmap.bitmap_val0 == 0) {
+            action_bitmap_hash_1_val();            
             // if the value is 0, we write the bitmap value on register0 and increase the counter
             // for the ip src on register1 (meaning that we have a new pair)
             action_bitmap_new_pair();
-        } else {
-            // if the value is 1, we do nothing (the pair is already accounted for)
-            action_bitmap_existing_pair();
         }            
 
         return;
